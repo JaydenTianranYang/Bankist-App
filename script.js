@@ -88,9 +88,8 @@ const displayMovements = function (movements, sort = false) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
       <div class="movements__row">
-        <div class="movements__type movements__type--${type}">${
-      i + 1
-    } ${type}</div>
+        <div class="movements__type movements__type--${type}">${i + 1
+      } ${type}</div>
         <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
@@ -160,9 +159,8 @@ btnLogin.addEventListener('click', function (e) {
 
   if (currentAccount?.pin === +inputLoginPin.value) {
     // Display UI and message
-    labelWelcome.textContent = `Welcome back, ${
-      currentAccount.owner.split(' ')[0]
-    }`;
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]
+      }`;
     containerApp.style.opacity = 1;
 
     // Clear input fields
@@ -244,26 +242,3 @@ btnSort.addEventListener('click', function (e) {
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
-Math.round(4.2); //4
-Math.round(4.9); //5
-
-const randomInt = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1)) + min;
-
-randomInt(10, 20);
-
-//Step1
-Math.random();
-// [0,1)
-
-//Step2
-Math.random() * (max - min + 1);
-//[0,11)
-
-//Step3
-Math.floor(Math.random() * (max - min + 1));
-//[0,10]的整数
-
-//Step4
-Math.floor(Math.random() * (max - min + 1)) + min;
-//[10,20]的整数
