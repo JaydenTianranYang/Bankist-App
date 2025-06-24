@@ -161,14 +161,6 @@ currentAccount = account1;
 updateUI(currentAccount);
 containerApp.style.opacity = 1;
 
-const now = new Date();
-const day = `${now.getDate()}`.padStart(2, 0);
-const month = `${now.getMonth() + 1}`.padStart(2, 0);
-const year = now.getFullYear();
-const hours = now.getHours();
-const min = now.getMinutes();
-labelDate.textContent = `${day}/${month}/${year}, ${hours}:${min}`;
-
 //day/month/year
 
 btnLogin.addEventListener('click', function (e) {
@@ -186,6 +178,15 @@ btnLogin.addEventListener('click', function (e) {
       } `;
     containerApp.style.opacity = 1;
 
+    // Create current date and time
+    const now = new Date();
+    const day = `${now.getDate()}`.padStart(2, 0);
+    const month = `${now.getMonth() + 1}`.padStart(2, 0);
+    const year = now.getFullYear();
+    const hours = `${now.getHours()}.padStart(2, 0)}`;
+    const min = `${now.getMinutes()}.padStart(2, 0)}`;
+    labelDate.textContent = `${day}/${month}/${year}, ${hours}:${min}`;
+
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
@@ -202,6 +203,9 @@ btnLoan.addEventListener('click', function (e) {
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
     currentAccount.movements.push(amount);
+
+    // Add loan date
+    currentAccount.movementsDates.push(new Date().toISOString());
 
     // Update UI
     updateUI(currentAccount);
@@ -227,6 +231,10 @@ btnTransfer.addEventListener('click', function (e) {
     // Doing the transfer
     currentAccount.movements.push(-amount);
     receiveAcc.movements.push(amount);
+
+    // Add transfer date
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiveAcc.movementsDates.push(new Date().toISOString());
 
     // Update UI
     updateUI(currentAccount);
