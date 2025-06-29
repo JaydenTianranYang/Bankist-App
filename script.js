@@ -86,7 +86,7 @@ const formatMovementDate = function (date, locale) {
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
-  const daysPassed = calcDaysPassed(new Date(), date);
+  const daysPassed = calcDaysPassed(new Date(date),);
   console.log(daysPassed);
 
   if (daysPassed === 0) return 'Today';
@@ -97,7 +97,7 @@ const formatMovementDate = function (date, locale) {
   // const month = `${date.getMonth() + 1}`.padStart(2, 0);
   // const year = date.getFullYear();
   // return `${day}/${month}/${year}`;
-  return new Intl.DateTimeFormat();
+  return new Intl.DateTimeFormat(locale).format(date);
 };
 
 const displayMovements = function (acc, sort = false) {
@@ -115,13 +115,12 @@ const displayMovements = function (acc, sort = false) {
     const type = movement > 0 ? 'deposit' : 'withdrawal';
 
     const date = new Date(movementDate);
-    const displayDate = formatMovementDate(date);
+    const displayDate = formatMovementDate(date, acc.locale);
 
     const html = `
       <div class="movements__row">
-        <div class="movements__type movements__type--${type}">${
-      i + 1
-    } ${type}</div>
+        <div class="movements__type movements__type--${type}">${i + 1
+      } ${type}</div>
         <div class="movements__date">${displayDate}</div>
         <div class="movements__value">${movement.toFixed(2)}€</div>
       </div>
@@ -199,9 +198,8 @@ btnLogin.addEventListener('click', function (e) {
 
   if (currentAccount?.pin === +inputLoginPin.value) {
     // Display UI and message
-    labelWelcome.textContent = `Welcome back, ${
-      currentAccount.owner.split(' ')[0]
-    } `;
+    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]
+      } `;
     containerApp.style.opacity = 1;
 
     // Create current date and time
