@@ -86,7 +86,7 @@ const formatMovementDate = function (date, locale) {
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
-  const daysPassed = calcDaysPassed(new Date(date),);
+  const daysPassed = calcDaysPassed(new Date(), date);
   console.log(daysPassed);
 
   if (daysPassed === 0) return 'Today';
@@ -99,6 +99,13 @@ const formatMovementDate = function (date, locale) {
   // return `${day}/${month}/${year}`;
   return new Intl.DateTimeFormat(locale).format(date);
 };
+
+const formatCur = function (value, locale, currency) {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency,
+  }).format(value);
+}
 
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
@@ -117,12 +124,14 @@ const displayMovements = function (acc, sort = false) {
     const date = new Date(movementDate);
     const displayDate = formatMovementDate(date, acc.locale);
 
+    const formattedMov = formatCur(movement, acc.locale, acc.currency);
+
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${i + 1
       } ${type}</div>
         <div class="movements__date">${displayDate}</div>
-        <div class="movements__value">${movement.toFixed(2)}€</div>
+        <div class="movements__value">${formattedMov}</div>
       </div>
     `;
 
@@ -133,7 +142,7 @@ const displayMovements = function (acc, sort = false) {
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
 
-  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
+  labelBalance.textContent = formatCur(acc.balance, acc.locale, acc.currency);
 };
 
 const calDisplaySummary = function (acc) {
@@ -313,3 +322,27 @@ btnSort.addEventListener('click', function (e) {
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
+const number = 1234.5;
+const us = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
+console.log(us.format(number));
+
+const euro = new Intl.NumberFormat('fr-FR', {
+  style: 'currency',
+  currency: 'EUR'
+});
+console.log(euro.format(number));
+
+const china = new Intl.NumberFormat('zh-CN', {
+  style: 'currency',
+  currency: 'CNY'
+});
+console.log(china.format(number));
+
+const percentage = new Intl.NumberFormat('en-US', {
+  style: 'percent',
+  minimumFractionDigits: 2
+});
+console.log(percentage.format(0.1234));
